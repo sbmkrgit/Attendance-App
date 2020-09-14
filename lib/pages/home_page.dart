@@ -2,6 +2,7 @@ import 'package:attendance_app/services/authentication.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:attendance_app/pages/routes.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({Key key, this.auth, this.userId, this.logoutCallback})
@@ -16,7 +17,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  
   final FirebaseAuth _auth = FirebaseAuth.instance;
   FirebaseUser user;
 
@@ -40,29 +40,65 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
+  Future<bool> _onWillPop() async {
+    return (await showDialog(
+          context: context,
+          builder: (context) => new AlertDialog(
+            title: new Text('Are you sure?'),
+            content: new Text('Do you want to exit an App'),
+            actions: <Widget>[
+              new FlatButton(
+                onPressed: () => Navigator.of(context).pop(false),
+                child: new Text('No'),
+              ),
+              new FlatButton(
+                onPressed: () => Navigator.of(context).pop(true),
+                child: new Text('Yes'),
+              ),
+            ],
+          ),
+        )) ??
+        false;
+  }
+
   Widget build(BuildContext context) {
-    return new Scaffold(
-      appBar: new AppBar(
-        title: new Text('Home Screen'),
-      ),
-      body: Center(
-        child: Text("Welcome to Attendance App"),
-      ),
-      drawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: <Widget>[
-            UserAccountsDrawerHeader(
-              accountEmail: Text("${user?.email}"),
-              accountName: null/*Text("${user?.displayName}"*/),
-            ListTile(
-              title: Text('Log Out !!'),
-              trailing: Icon(Icons.account_box),
-              onTap: () {
-                Navigator.pop(signOut());
-              },
-            )
-          ],
+    return new WillPopScope(
+      onWillPop: _onWillPop,
+      child: new Scaffold(
+        appBar: new AppBar(
+          title: new Text('Home Screen'),
+        ),
+        body: Center(
+          child: Text("Welcome to Attendance App"),
+        ),
+        drawer: Drawer(
+          child: ListView(
+            padding: EdgeInsets.zero,
+            children: <Widget>[
+              UserAccountsDrawerHeader(
+                  accountEmail: Text("${user?.email}"),
+                  accountName: null /*Text("${user?.displayName}"*/),
+              ListTile(
+                title: Text('Profile'),
+                leading: Icon(Icons.person),
+                onTap: () =>
+                    Navigator.pushReplacementNamed(context, PageRoutes.pro),
+              ),
+              ListTile(
+                title: Text('Attendance Record'),
+                leading: Icon(Icons.date_range),
+                onTap: () {},
+              ),
+              new Divider(),
+              ListTile(
+                title: Text('Log Out !!'),
+                leading: Icon(Icons.account_box),
+                onTap: () {
+                  Navigator.pop(signOut());
+                },
+              ),
+            ],
+          ),
         ),
       ),
     );
