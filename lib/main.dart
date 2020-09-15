@@ -1,6 +1,4 @@
-import 'package:attendance_app/pages/profile_page.dart';
 import 'package:attendance_app/pages/root_page.dart';
-import 'package:attendance_app/pages/routes.dart';
 import 'package:attendance_app/services/authentication.dart';
 import 'package:flutter/material.dart';
 
@@ -18,9 +16,6 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.blue,
         ),
         home: new RootPage(auth: new Auth()),
-        routes: {
-          PageRoutes.pro: (context) => Profile(),
-        },
         );
   }
 }

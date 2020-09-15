@@ -1,8 +1,9 @@
+import 'package:attendance_app/pages/attendance_record.dart';
+import 'package:attendance_app/pages/profile_page.dart';
 import 'package:attendance_app/services/authentication.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:attendance_app/pages/routes.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({Key key, this.auth, this.userId, this.logoutCallback})
@@ -81,22 +82,31 @@ class _HomePageState extends State<HomePage> {
               ListTile(
                 title: Text('Profile'),
                 leading: Icon(Icons.person),
-                onTap: () =>
-                    Navigator.pushReplacementNamed(context, PageRoutes.pro),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => Profile()),
+                  );
+                },
               ),
               ListTile(
                 title: Text('Attendance Record'),
                 leading: Icon(Icons.date_range),
-                onTap: () {},
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => Attendance()),
+                  );
+                },
               ),
               new Divider(),
               ListTile(
                 title: Text('Log Out !!'),
-                leading: Icon(Icons.account_box),
+                leading: Icon(Icons.lock),
                 onTap: () {
-                  Navigator.pop(signOut());
+                  signOut();
                 },
-              ),
+              )
             ],
           ),
         ),
