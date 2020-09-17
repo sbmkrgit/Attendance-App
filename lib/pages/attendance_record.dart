@@ -1,10 +1,45 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
-class Attendance extends StatelessWidget{
+class Attendance extends StatefulWidget {
   @override
-  Widget build(BuildContext context) {
-    throw UnimplementedError();
+  _AttendanceState createState() => _AttendanceState();
+}
+
+class _AttendanceState extends State<Attendance> {
+  DateTime myDate;
+  void showPicker() {
+    showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2020),
+      lastDate: DateTime.now(),
+    ).then((pickedDate) {
+      setState(() {
+        myDate = pickedDate;
+      });
+    });
   }
 
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Attendance Record'),
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            RaisedButton(
+              onPressed: showPicker,
+              child: Text('Select Date'),
+            ),
+            Text("Selected Date : $myDate"),
+          ],
+        ),
+      ),
+    );
+  }
 }
