@@ -1,6 +1,6 @@
-import 'package:attendance_app/pages/root_page.dart';
-import 'package:attendance_app/services/authentication.dart';
+import 'package:attendance_app/pages/SplashScreen.dart';
 import 'package:flutter/material.dart';
+
 
 void main() {
   runApp(new MyApp());
@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
         theme: new ThemeData(
           primarySwatch: Colors.blue,
         ),
-        home: new RootPage(auth: new Auth()),
+        home: new SplashScreen(),
         );
   }
 }
