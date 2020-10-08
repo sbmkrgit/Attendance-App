@@ -1,3 +1,4 @@
+import 'package:attendance_app/pages/AddStudent.dart';
 import 'package:attendance_app/pages/attendance_record.dart';
 import 'package:attendance_app/pages/profile_page.dart';
 import 'package:attendance_app/services/authentication.dart';
@@ -70,8 +71,15 @@ class _HomePageState extends State<HomePage> {
           title: new Text('Home Screen'),
         ),
         body: Center(
-          child: Text("Welcome to Attendance App"),
-        ),
+            child: RaisedButton(
+          child: Text('Add Student'),
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => AddStudent()),
+            );
+          },
+        )),
         drawer: Drawer(
           child: ListView(
             padding: EdgeInsets.zero,
