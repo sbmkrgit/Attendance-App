@@ -10,25 +10,25 @@ class _AddStudentState extends State<AddStudent> {
   final db = Firestore.instance;
   final GlobalKey<FormState> _formStateKey = GlobalKey<FormState>();
   String _studentName;
-  String _studentAge;
+  String _studentRollNo;
   bool isUpdate = false;
   String docIdToUpdate;
   final _studentNameController = TextEditingController();
-  final _studentAgeController = TextEditingController();
+  final _studentRollNoController = TextEditingController();
 
   clearForm() {
     setState(() {
       isUpdate = false;
       docIdToUpdate = null;
       _studentNameController.text = "";
-      _studentAgeController.text = "";
+      _studentRollNoController.text = "";
     });
   }
 
   Future<void> addStudent() async {
     await db.collection("students").add({
       'name': _studentName,
-      'age': int.parse(_studentAge),
+      'rollNo': int.parse(_studentRollNo),
     }).then((documentReference) {
       print(documentReference.documentID);
       clearForm();
@@ -40,7 +40,7 @@ class _AddStudentState extends State<AddStudent> {
   Future<void> editStudent() async {
     await db.collection("students").document(docIdToUpdate).updateData({
       'name': _studentName,
-      'age': int.parse(_studentAge),
+      'rollNo': int.parse(_studentRollNo),
     }).then((documentReference) {
       clearForm();
     }).catchError((e) {
@@ -59,7 +59,7 @@ class _AddStudentState extends State<AddStudent> {
           (doc) => new ListTile(
             title: new Text(doc["name"]),
             subtitle: new Text(
-              doc["age"].toString(),
+              doc["rollNo"].toString(),
             ),
             trailing: Container(
               width: 100,
@@ -69,7 +69,7 @@ class _AddStudentState extends State<AddStudent> {
                     onPressed: () {
                       setState(() {
                         _studentNameController.text = doc["name"];
-                        _studentAgeController.text = doc["age"].toString();
+                        _studentRollNoController.text = doc["rollNo"].toString();
                         docIdToUpdate = doc.documentID;
                         isUpdate = true;
                       });
@@ -146,16 +146,16 @@ class _AddStudentState extends State<AddStudent> {
                   child: TextFormField(
                     validator: (value) {
                       if (value.isEmpty) {
-                        return 'Please Enter Age';
+                        return 'Please Enter RollNo';
                       }
                       if (value.trim() == "")
                         return "Only Space is Not Valid!!!";
                       return null;
                     },
                     onSaved: (value) {
-                      _studentAge = value;
+                      _studentRollNo = value;
                     },
-                    controller: _studentAgeController,
+                    controller: _studentRollNoController,
                     keyboardType: TextInputType.number,
                     decoration: InputDecoration(
                         focusedBorder: new UnderlineInputBorder(
@@ -163,7 +163,7 @@ class _AddStudentState extends State<AddStudent> {
                                 color: Colors.green,
                                 width: 2,
                                 style: BorderStyle.solid)),
-                        labelText: "Age",
+                        labelText: "RollNo",
                         icon: Icon(
                           Icons.dialpad,
                           color: Colors.green,
