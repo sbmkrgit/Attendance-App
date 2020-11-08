@@ -1,4 +1,5 @@
 import 'package:attendance_app/pages/AddStudent.dart';
+import 'package:attendance_app/pages/MarkAttendance.dart';
 import 'package:attendance_app/pages/attendance_record.dart';
 import 'package:attendance_app/pages/profile_page.dart';
 import 'package:attendance_app/services/authentication.dart';
@@ -71,15 +72,37 @@ class _HomePageState extends State<HomePage> {
           title: new Text('Home Screen'),
         ),
         body: Center(
-            child: RaisedButton(
-          child: Text('Add Student'),
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => AddStudent()),
-            );
-          },
-        )),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: RaisedButton(
+                  child: Text('Add Student'),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => AddStudent()),
+                    );
+                  },
+                ),
+              ),
+
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: RaisedButton(
+                  child: Text('Mark Attendance'),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => MarkAttendance()),
+                    );
+                  },
+                ),
+              ),
+            ],
+          ),
+        ),
         drawer: Drawer(
           child: ListView(
             padding: EdgeInsets.zero,
