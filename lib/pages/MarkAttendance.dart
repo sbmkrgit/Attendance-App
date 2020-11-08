@@ -10,6 +10,8 @@ class _MarkAttendanceState extends State<MarkAttendance> {
   final db = Firestore.instance;
   String status = "Absent";
 
+  DateTime now = new DateTime.now();
+
   Future<void> attendanceMark() async {
     await db.collection("students").add({
       'attendance': "present",
@@ -51,6 +53,15 @@ class _MarkAttendanceState extends State<MarkAttendance> {
         ),
         body: Column(
           children: [
+            Text(
+              now.day.toString() +
+                  "/" +
+                  now.month.toString() +
+                  "/" +
+                  now.year.toString(),
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+            ),
+            Divider(),
             Expanded(
               child: StreamBuilder<QuerySnapshot>(
                 stream: db.collection('students').orderBy('rollNo').snapshots(),
@@ -77,12 +88,18 @@ class _MarkAttendanceState extends State<MarkAttendance> {
                                 db
                                     .collection("students")
                                     .document(ds.documentID)
-                                    .updateData({"attendance": "Present"});
+                                    .updateData({
+                                  "attendance": "Present",
+                                  'time': DateTime.now()
+                                });
                               } else {
                                 db
                                     .collection("students")
                                     .document(ds.documentID)
-                                    .updateData({"attendance": "Absent"});
+                                    .updateData({
+                                  "attendance": "Absent",
+                                  'time': DateTime.now()
+                                });
                               }
                             },
                             leading: Icon(Icons.person, color: Colors.black),
