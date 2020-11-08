@@ -7,6 +7,7 @@ class AddStudent extends StatefulWidget {
 }
 
 class _AddStudentState extends State<AddStudent> {
+  bool present = false;
   final db = Firestore.instance;
   final GlobalKey<FormState> _formStateKey = GlobalKey<FormState>();
   String _studentName;
@@ -29,6 +30,7 @@ class _AddStudentState extends State<AddStudent> {
     await db.collection("students").add({
       'name': _studentName,
       'rollNo': int.parse(_studentRollNo),
+      'attendance' : "Absent",
     }).then((documentReference) {
       print(documentReference.documentID);
       clearForm();
@@ -57,9 +59,12 @@ class _AddStudentState extends State<AddStudent> {
     return snapshot.data.documents
         .map<Widget>(
           (doc) => new ListTile(
-            title: new Text(doc["name"]),
-            subtitle: new Text(
-              doc["rollNo"].toString(),
+            leading: Icon(Icons.person_outline),
+            title: Text(
+              doc['rollNo'].toString() +
+                  ". " +
+                  doc['name'].toString().toUpperCase(),
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
             ),
             trailing: Container(
               width: 100,
@@ -69,7 +74,8 @@ class _AddStudentState extends State<AddStudent> {
                     onPressed: () {
                       setState(() {
                         _studentNameController.text = doc["name"];
-                        _studentRollNoController.text = doc["rollNo"].toString();
+                        _studentRollNoController.text =
+                            doc["rollNo"].toString();
                         docIdToUpdate = doc.documentID;
                         isUpdate = true;
                       });
@@ -114,38 +120,6 @@ class _AddStudentState extends State<AddStudent> {
                   child: TextFormField(
                     validator: (value) {
                       if (value.isEmpty) {
-                        return 'Please Enter Student Name';
-                      }
-                      if (value.trim() == "")
-                        return "Only Space is Not Valid!!!";
-                      return null;
-                    },
-                    onSaved: (value) {
-                      _studentName = value;
-                    },
-                    controller: _studentNameController,
-                    decoration: InputDecoration(
-                        focusedBorder: new UnderlineInputBorder(
-                            borderSide: new BorderSide(
-                                color: Colors.green,
-                                width: 2,
-                                style: BorderStyle.solid)),
-                        labelText: "Student Name",
-                        icon: Icon(
-                          Icons.business_center,
-                          color: Colors.green,
-                        ),
-                        fillColor: Colors.white,
-                        labelStyle: TextStyle(
-                          color: Colors.green,
-                        )),
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(left: 10, right: 10, bottom: 10),
-                  child: TextFormField(
-                    validator: (value) {
-                      if (value.isEmpty) {
                         return 'Please Enter RollNo';
                       }
                       if (value.trim() == "")
@@ -165,7 +139,39 @@ class _AddStudentState extends State<AddStudent> {
                                 style: BorderStyle.solid)),
                         labelText: "RollNo",
                         icon: Icon(
-                          Icons.dialpad,
+                          Icons.confirmation_number,
+                          color: Colors.green,
+                        ),
+                        fillColor: Colors.white,
+                        labelStyle: TextStyle(
+                          color: Colors.green,
+                        )),
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(left: 10, right: 10, bottom: 10),
+                  child: TextFormField(
+                    validator: (value) {
+                      if (value.isEmpty) {
+                        return 'Please Enter Student Name';
+                      }
+                      if (value.trim() == "")
+                        return "Only Space is Not Valid!!!";
+                      return null;
+                    },
+                    onSaved: (value) {
+                      _studentName = value;
+                    },
+                    controller: _studentNameController,
+                    decoration: InputDecoration(
+                        focusedBorder: new UnderlineInputBorder(
+                            borderSide: new BorderSide(
+                                color: Colors.green,
+                                width: 2,
+                                style: BorderStyle.solid)),
+                        labelText: "Student Name",
+                        icon: Icon(
+                          Icons.person_add,
                           color: Colors.green,
                         ),
                         fillColor: Colors.white,
@@ -219,10 +225,10 @@ class _AddStudentState extends State<AddStudent> {
             height: 5.0,
           ),
           StreamBuilder<QuerySnapshot>(
-            stream: db.collection("students").snapshots(),
+            stream: db.collection("students").orderBy('rollNo').snapshots(),
             builder:
                 (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-              if (!snapshot.hasData) return new Text("There is no expense");
+              if (!snapshot.hasData) return new Text("There is no Student");
               return Expanded(
                 child: new ListView(
                   children: generateStudentList(snapshot),
