@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class AddStudent extends StatefulWidget {
@@ -7,6 +8,19 @@ class AddStudent extends StatefulWidget {
 }
 
 class _AddStudentState extends State<AddStudent> {
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+
+  FirebaseUser user;
+  initUser() async {
+    user = await _auth.currentUser();
+    setState(() {
+      collection = user.email;
+    });
+  }
+
+  String collection;
+  CollectionReference ref = Firestore.instance.collection("students");
+
   bool present = false;
   final db = Firestore.instance;
   final GlobalKey<FormState> _formStateKey = GlobalKey<FormState>();
@@ -27,12 +41,21 @@ class _AddStudentState extends State<AddStudent> {
   }
 
   Future<void> addStudent() async {
-    await db.collection("students").add({
+    /* await db.collection("students").add({
       'name': _studentName,
       'rollNo': int.parse(_studentRollNo),
-      'attendance' : "Absent",
+      'attendance': "Absent",
     }).then((documentReference) {
       print(documentReference.documentID);
+      clearForm();
+    }).catchError((e) {
+      print(e);
+    }); */
+    await ref.document(_studentRollNo).setData({
+      'name': _studentName,
+      'rollNo': int.parse(_studentRollNo),
+      'attendance': "Absent",
+    }).then((documentReference) {
       clearForm();
     }).catchError((e) {
       print(e);
