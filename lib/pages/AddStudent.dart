@@ -26,10 +26,18 @@ class _AddStudentState extends State<AddStudent> {
   final GlobalKey<FormState> _formStateKey = GlobalKey<FormState>();
   String _studentName;
   String _studentRollNo;
+  String motherName;
+  String fatherName;
+  String mobNo;
+  String address;
   bool isUpdate = false;
   String docIdToUpdate;
   final _studentNameController = TextEditingController();
   final _studentRollNoController = TextEditingController();
+  final motherNameController = TextEditingController();
+  final fatherNameController = TextEditingController();
+  final mobNoController = TextEditingController();
+  final addressController = TextEditingController();
 
   clearForm() {
     setState(() {
@@ -37,6 +45,10 @@ class _AddStudentState extends State<AddStudent> {
       docIdToUpdate = null;
       _studentNameController.text = "";
       _studentRollNoController.text = "";
+      fatherNameController.text = "";
+      motherNameController.text = "";
+      mobNoController.text = "";
+      addressController.text = "";
     });
   }
 
@@ -52,8 +64,12 @@ class _AddStudentState extends State<AddStudent> {
       print(e);
     }); */
     await ref.document(_studentRollNo).setData({
-      'name': _studentName,
+      'student name': _studentName,
       'rollNo': int.parse(_studentRollNo),
+      'father name': fatherName,
+      'mother name': motherName,
+      'mobile no': mobNo,
+      'address': address,
       'attendance': "Absent",
     }).then((documentReference) {
       clearForm();
@@ -64,8 +80,12 @@ class _AddStudentState extends State<AddStudent> {
 
   Future<void> editStudent() async {
     await db.collection("students").document(docIdToUpdate).updateData({
-      'name': _studentName,
+      'student name': _studentName,
       'rollNo': int.parse(_studentRollNo),
+      'father name': fatherName,
+      'mother name': motherName,
+      'mobile no': mobNo,
+      'address': address,
     }).then((documentReference) {
       clearForm();
     }).catchError((e) {
@@ -86,7 +106,7 @@ class _AddStudentState extends State<AddStudent> {
             title: Text(
               doc['rollNo'].toString() +
                   ". " +
-                  doc['name'].toString().toUpperCase(),
+                  doc['student name'].toString().toUpperCase(),
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
             ),
             trailing: Container(
@@ -96,9 +116,16 @@ class _AddStudentState extends State<AddStudent> {
                   IconButton(
                     onPressed: () {
                       setState(() {
-                        _studentNameController.text = doc["name"];
+                        _studentNameController.text = doc["student name"];
                         _studentRollNoController.text =
                             doc["rollNo"].toString();
+                        fatherNameController.text =
+                            doc["father name"].toString();
+                        motherNameController.text =
+                            doc["mother name"].toString();
+                        mobNoController.text = doc["mobile no"].toString();
+                        addressController.text = doc["address"].toString();
+
                         docIdToUpdate = doc.documentID;
                         isUpdate = true;
                       });
@@ -128,8 +155,9 @@ class _AddStudentState extends State<AddStudent> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomPadding: false,
       appBar: AppBar(
-        title: Text("Add Student"),
+        title: Text("Add or Edit Student"),
       ),
       body: Column(
         children: <Widget>[
@@ -139,7 +167,8 @@ class _AddStudentState extends State<AddStudent> {
             child: Column(
               children: <Widget>[
                 Padding(
-                  padding: EdgeInsets.only(left: 10, right: 10, bottom: 10),
+                  padding:
+                      EdgeInsets.only(left: 10, right: 10, bottom: 10, top: 10),
                   child: TextFormField(
                     validator: (value) {
                       if (value.isEmpty) {
@@ -155,20 +184,14 @@ class _AddStudentState extends State<AddStudent> {
                     controller: _studentRollNoController,
                     keyboardType: TextInputType.number,
                     decoration: InputDecoration(
-                        focusedBorder: new UnderlineInputBorder(
+                        border: OutlineInputBorder(),
+                        /* focusedBorder: new UnderlineInputBorder(
                             borderSide: new BorderSide(
                                 color: Colors.green,
                                 width: 2,
-                                style: BorderStyle.solid)),
+                                style: BorderStyle.solid)), */
                         labelText: "RollNo",
-                        icon: Icon(
-                          Icons.confirmation_number,
-                          color: Colors.green,
-                        ),
-                        fillColor: Colors.white,
-                        labelStyle: TextStyle(
-                          color: Colors.green,
-                        )),
+                        prefixIcon: Icon(Icons.confirmation_number)),
                   ),
                 ),
                 Padding(
@@ -186,21 +209,103 @@ class _AddStudentState extends State<AddStudent> {
                       _studentName = value;
                     },
                     controller: _studentNameController,
+                    keyboardType: TextInputType.text,
                     decoration: InputDecoration(
-                        focusedBorder: new UnderlineInputBorder(
-                            borderSide: new BorderSide(
-                                color: Colors.green,
-                                width: 2,
-                                style: BorderStyle.solid)),
+                        border: OutlineInputBorder(),
                         labelText: "Student Name",
-                        icon: Icon(
-                          Icons.person_add,
-                          color: Colors.green,
-                        ),
-                        fillColor: Colors.white,
-                        labelStyle: TextStyle(
-                          color: Colors.green,
-                        )),
+                        prefixIcon: Icon(Icons.person_add)),
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(left: 10, right: 10, bottom: 10),
+                  child: TextFormField(
+                    validator: (value) {
+                      if (value.isEmpty) {
+                        return 'Please Enter Father Name';
+                      }
+                      if (value.trim() == "")
+                        return "Only Space is Not Valid!!!";
+                      return null;
+                    },
+                    onSaved: (value) {
+                      fatherName = value;
+                    },
+                    controller: fatherNameController,
+                    keyboardType: TextInputType.text,
+                    decoration: InputDecoration(
+                        border: OutlineInputBorder(),
+                        labelText: "Father Name",
+                        prefixIcon: Icon(Icons.person)),
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(left: 10, right: 10, bottom: 10),
+                  child: TextFormField(
+                    validator: (value) {
+                      if (value.isEmpty) {
+                        return 'Please Enter Mother Name';
+                      }
+                      if (value.trim() == "")
+                        return "Only Space is Not Valid!!!";
+                      return null;
+                    },
+                    onSaved: (value) {
+                      motherName = value;
+                    },
+                    controller: motherNameController,
+                    keyboardType: TextInputType.text,
+                    decoration: InputDecoration(
+                        border: OutlineInputBorder(),
+                        labelText: "Mother Name",
+                        prefixIcon: Icon(Icons.person)),
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(left: 10, right: 10, bottom: 10),
+                  child: TextFormField(
+                    validator: (value) {
+                      if (value.isEmpty) {
+                        return 'Please Enter Mobile Number';
+                      }
+                      if (value.length != 10) {
+                        return "Invalid Number !!";
+                      }
+                      if (value.trim() == "")
+                        return "Only Space is Not Valid!!!";
+                      return null;
+                      
+                    },
+                    onSaved: (value) {
+                      mobNo = value;
+                    },
+                    controller: mobNoController,
+                    keyboardType: TextInputType.number,
+                    decoration: InputDecoration(
+                        border: OutlineInputBorder(),
+                        labelText: "Mobile Number",
+                        prefixIcon: Icon(Icons.phone)),
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(left: 10, right: 10, bottom: 10),
+                  child: TextFormField(
+                    validator: (value) {
+                      if (value.isEmpty) {
+                        return 'Please Enter Address';
+                      }
+                      if (value.trim() == "")
+                        return "Only Space is Not Valid!!!";
+                      return null;
+                    },
+                    onSaved: (value) {
+                      address = value;
+                    },
+                    controller: addressController,
+                    keyboardType: TextInputType.text,
+                    decoration: InputDecoration(
+                        border: OutlineInputBorder(),
+                        labelText: "Address",
+                        prefixIcon: Icon(Icons.home)),
                   ),
                 ),
               ],
@@ -210,7 +315,7 @@ class _AddStudentState extends State<AddStudent> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               RaisedButton(
-                color: Colors.green,
+                color: Colors.blue,
                 child: Text(
                   (isUpdate ? 'UPDATE STUDENT' : 'ADD NEW STUDENT'),
                   style: TextStyle(color: Colors.white),
