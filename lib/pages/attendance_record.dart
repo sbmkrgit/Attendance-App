@@ -30,11 +30,13 @@ class _AttendanceState extends State<Attendance> {
       ),
       body: Center(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            RaisedButton(
-              onPressed: showPicker,
-              child: Text('Select Date'),
+            Padding(
+              padding: EdgeInsets.all(10),
+              child: RaisedButton(
+                onPressed: showPicker,
+                child: Text('Select Date'),
+              ),
             ),
             Text("Selected Date : $myDate"),
           ],
