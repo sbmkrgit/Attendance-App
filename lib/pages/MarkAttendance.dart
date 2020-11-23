@@ -79,7 +79,7 @@ class _MarkAttendanceState extends State<MarkAttendance> {
                             title: Text(
                               ds['rollNo'].toString() +
                                   ". " +
-                                  ds['name'].toString().toUpperCase(),
+                                  ds['student name'].toString().toUpperCase(),
                               style: TextStyle(
                                   fontWeight: FontWeight.bold, fontSize: 15),
                             ),
