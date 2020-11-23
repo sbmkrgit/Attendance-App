@@ -157,7 +157,7 @@ class _AddStudentState extends State<AddStudent> {
     return Scaffold(
       resizeToAvoidBottomPadding: false,
       appBar: AppBar(
-        title: Text("Add or Edit Student"),
+        title: Text("Add/Edit Student"),
       ),
       body: Column(
         children: <Widget>[
