@@ -75,29 +75,52 @@ class _HomePageState extends State<HomePage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: RaisedButton(
-                  child: Text('Add Student'),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => AddStudent()),
-                    );
-                  },
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => AddStudent()),
+                  );
+                },
+                child: Container(
+                  width: 300,
+                  height: 100,
+                  child: Card(
+                    color: Colors.blue,
+                    child: Center(
+                      child: Text(
+                        "Add/Edit Student",
+                        style: TextStyle(
+                            fontSize: 30,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white),
+                      ),
+                    ),
+                  ),
                 ),
               ),
-
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: RaisedButton(
-                  child: Text('Mark Attendance'),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => MarkAttendance()),
-                    );
-                  },
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => MarkAttendance()),
+                  );
+                },
+                child: Container(
+                  width: 300,
+                  height: 100,
+                  child: Card(
+                    color: Colors.blue,
+                    child: Center(
+                      child: Text(
+                        "Mark Attendance",
+                        style: TextStyle(
+                            fontSize: 30,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white),
+                      ),
+                    ),
+                  ),
                 ),
               ),
             ],
