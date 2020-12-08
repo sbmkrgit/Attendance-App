@@ -45,45 +45,42 @@ class _AttendanceState extends State<Attendance> {
             Text("Selected Date : $myDate"),
             Divider(),
             Expanded(
-                child: StreamBuilder<QuerySnapshot>(
-                  stream: db
-                      .collection('students')
-                      .orderBy("attendance", descending: false)
-                      .snapshots(),
-                  builder: (context, snapshot) {
-                    if (snapshot.hasData) {
-                      return ListView.builder(
-                        itemCount: snapshot.data.documents.length,
-                        itemBuilder: (context, index) {
-            DocumentSnapshot ds = snapshot.data.documents[index];
-            String res = ds['attendance'].toString();
-            return Container(
-              /* decoration: new BoxDecoration(
+              child: StreamBuilder<QuerySnapshot>(
+                stream: db.collection('students').snapshots(),
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    return ListView.builder(
+                      itemCount: snapshot.data.documents.length,
+                      itemBuilder: (context, index) {
+                        DocumentSnapshot ds = snapshot.data.documents[index];
+                        String res = ds['attendance'].toString();
+                        return Container(
+                          /* decoration: new BoxDecoration(
                 color: Colors.red
               ), */
-              color: res == 'Absent' ? Colors.red : Colors.green,
-              child: ListTile(
-                title: Text(
-                  ds['rollNo'].toString() +
-                      ". " +
-                      ds['student name'].toString().toUpperCase(),
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold, fontSize: 15),
-                ),
-                leading: Icon(Icons.person, color: Colors.black),
-                trailing: Text(res),
+                          color: res == 'Absent' ? Colors.red : Colors.green,
+                          child: ListTile(
+                            title: Text(
+                              ds['rollNo'].toString() +
+                                  ". " +
+                                  ds['student name'].toString().toUpperCase(),
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 15),
+                            ),
+                            leading: Icon(Icons.person, color: Colors.black),
+                            trailing: Text(res),
+                          ),
+                        );
+                      },
+                    );
+                  } else if (snapshot.hasError) {
+                    return CircularProgressIndicator();
+                  } else {
+                    return CircularProgressIndicator();
+                  }
+                },
               ),
-            );
-                        },
-                      );
-                    } else if (snapshot.hasError) {
-                      return CircularProgressIndicator();
-                    } else {
-                      return CircularProgressIndicator();
-                    }
-                  },
-                ),
-              ),
+            ),
           ],
         ),
       ),
