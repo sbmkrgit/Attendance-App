@@ -26,8 +26,8 @@ class _AddStudentState extends State<AddStudent> {
   final GlobalKey<FormState> _formStateKey = GlobalKey<FormState>();
   String _studentName;
   String _studentRollNo;
-  String motherName;
-  String fatherName;
+  String motherName="";
+  String fatherName="";
   String mobNo;
   String address;
   bool isUpdate = false;
@@ -219,14 +219,14 @@ class _AddStudentState extends State<AddStudent> {
                 Padding(
                   padding: EdgeInsets.only(left: 10, right: 10, bottom: 10),
                   child: TextFormField(
-                    validator: (value) {
+                    /* validator: (value) {
                       if (value.isEmpty) {
                         return 'Please Enter Father Name';
                       }
                       if (value.trim() == "")
                         return "Only Space is Not Valid!!!";
                       return null;
-                    },
+                    }, */
                     onSaved: (value) {
                       fatherName = value;
                     },
@@ -241,14 +241,14 @@ class _AddStudentState extends State<AddStudent> {
                 Padding(
                   padding: EdgeInsets.only(left: 10, right: 10, bottom: 10),
                   child: TextFormField(
-                    validator: (value) {
+                    /* validator: (value) {
                       if (value.isEmpty) {
                         return 'Please Enter Mother Name';
                       }
                       if (value.trim() == "")
                         return "Only Space is Not Valid!!!";
                       return null;
-                    },
+                    }, */
                     onSaved: (value) {
                       motherName = value;
                     },
