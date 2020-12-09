@@ -90,15 +90,15 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-        appBar: new AppBar(
+        /* appBar: new AppBar(
           title: new Text('Attendance App'),
-        ),
+        ), */
         body: Stack(
-          children: <Widget>[
-            _showForm(),
-            _showCircularProgress(),
-          ],
-        ));
+      children: <Widget>[
+        _showForm(),
+        _showCircularProgress(),
+      ],
+    ));
   }
 
   Widget _showCircularProgress() {
@@ -120,10 +120,11 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
             shrinkWrap: true,
             children: <Widget>[
               showLogo(),
+              showText(),
               showEmailInput(),
               showPasswordInput(),
               showPrimaryButton(),
-              showSecondaryButton(),
+              //showSecondaryButton(),
               showErrorMessage(),
             ],
           ),
@@ -151,13 +152,32 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
     return new Hero(
       tag: 'hero',
       child: Padding(
-        padding: EdgeInsets.fromLTRB(0.0, 70.0, 0.0, 0.0),
+        padding: EdgeInsets.only(top: 5),
         child: CircleAvatar(
+          radius: 120,
+          child: ClipOval(
+            //borderRadius:BorderRadius.circular(70),
+            child: Image.asset(
+              'images/attend2.png',
+              width: 200,
+              height: 250,
+              //fit: BoxFit.cover,
+            ),
+          ),
           backgroundColor: Colors.transparent,
-          radius: 48.0,
-          child: Image.asset('assets/flutter-icon.png'),
         ),
       ),
+    );
+  }
+
+  Widget showText() {
+    return Padding(
+      padding: EdgeInsets.only(top: 5,left: 80),
+      child: Text("Smart Attendance",
+          style: TextStyle(
+              fontSize: 25.0,
+              fontWeight: FontWeight.bold,
+              fontStyle: FontStyle.italic)),
     );
   }
 
