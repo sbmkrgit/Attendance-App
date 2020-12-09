@@ -73,8 +73,31 @@ class _HomePageState extends State<HomePage> {
         ),
         body: Center(
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+            //mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.only(top: 30),
+                child: CircleAvatar(
+                  radius: 120,
+                  child: ClipOval(
+                    //borderRadius:BorderRadius.circular(70),
+                    child: Image.asset(
+                      'images/attend2.png',
+                      width: 200,
+                      height: 250,
+                      //fit: BoxFit.cover,
+                    ),
+                  ),
+                  backgroundColor: Colors.transparent,
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.only(bottom: 20),
+                child: Text('Smart Attendance !!',
+                    style:
+                        TextStyle(fontSize: 25.0, fontWeight: FontWeight.bold,
+                        color: Colors.black)),
+              ),
               GestureDetector(
                 onTap: () {
                   Navigator.push(
@@ -130,9 +153,40 @@ class _HomePageState extends State<HomePage> {
           child: ListView(
             padding: EdgeInsets.zero,
             children: <Widget>[
-              UserAccountsDrawerHeader(
+              DrawerHeader(
+                  margin: EdgeInsets.zero,
+                  padding: EdgeInsets.zero,
+                  decoration: BoxDecoration(
+                    color: Colors.blue,
+                  ),
+                  child: Stack(children: <Widget>[
+                    Padding(
+                      padding: EdgeInsets.only(left: 18, top: 10),
+                      child: CircleAvatar(
+                        radius: 55,
+                        child: ClipOval(
+                          //borderRadius:BorderRadius.circular(70),
+                          child: Image.asset(
+                            'images/person.png',
+                            width: 100,
+                            height: 100,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                        backgroundColor: Colors.black,
+                      ),
+                    ),
+                    Positioned(
+                      bottom: 10.0,
+                      left: 16.0,
+                      child: Text("Welcome to Smart Attendance !!",
+                          style: TextStyle(
+                              fontSize: 18.0, fontWeight: FontWeight.bold)),
+                    ),
+                  ])),
+              /* UserAccountsDrawerHeader(
                   accountEmail: Text("${user?.email}"),
-                  accountName: null /*Text("${user?.displayName}"*/),
+                  accountName: null /*Text("${user?.displayName}"*/), */
               ListTile(
                 title: Text('Profile'),
                 leading: Icon(Icons.person),
