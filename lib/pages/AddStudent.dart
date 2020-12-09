@@ -28,8 +28,8 @@ class _AddStudentState extends State<AddStudent> {
   String _studentRollNo;
   String motherName="";
   String fatherName="";
-  String mobNo;
-  String address;
+  String mobNo="";
+  String address="";
   bool isUpdate = false;
   String docIdToUpdate;
   final _studentNameController = TextEditingController();
@@ -263,7 +263,7 @@ class _AddStudentState extends State<AddStudent> {
                 Padding(
                   padding: EdgeInsets.only(left: 10, right: 10, bottom: 10),
                   child: TextFormField(
-                    validator: (value) {
+                    /* validator: (value) {
                       if (value.isEmpty) {
                         return 'Please Enter Mobile Number';
                       }
@@ -274,7 +274,7 @@ class _AddStudentState extends State<AddStudent> {
                         return "Only Space is Not Valid!!!";
                       return null;
                       
-                    },
+                    }, */
                     onSaved: (value) {
                       mobNo = value;
                     },
@@ -289,14 +289,14 @@ class _AddStudentState extends State<AddStudent> {
                 Padding(
                   padding: EdgeInsets.only(left: 10, right: 10, bottom: 10),
                   child: TextFormField(
-                    validator: (value) {
+                    /* validator: (value) {
                       if (value.isEmpty) {
                         return 'Please Enter Address';
                       }
                       if (value.trim() == "")
                         return "Only Space is Not Valid!!!";
                       return null;
-                    },
+                    }, */
                     onSaved: (value) {
                       address = value;
                     },
